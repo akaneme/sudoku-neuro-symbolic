@@ -1,4 +1,4 @@
-# Raw 2026-07-15 01:33
+# Raw Dataset
 
 This directory is intentionally empty.
 
@@ -15,4 +15,4 @@ Place the downloaded file here:
 data/raw/sudoku-3m.csv
 ```
 
-This dataset is excluded from Git because it exceeds GitHub's file size limit.
+>This dataset is excluded from Git because it exceeds GitHub's file size limit.
