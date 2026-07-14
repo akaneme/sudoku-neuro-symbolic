@@ -1,0 +1,4 @@
+# Datasets
+data/raw/*.csv
+!data/raw/.gitkeep
+!data/raw/README.md
