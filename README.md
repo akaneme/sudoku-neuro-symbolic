@@ -1,27 +1,74 @@
 # Neuro-Symbolic Sudoku Solver
 
-Can a neural network solve puzzles it has never seen, 
-if it knows the rules?
+A project comparing classical backtracking with a neural Sudoku solver,
+with the goal of studying whether symbolic constraints can improve
+neural generalisation on harder, unseen puzzles.
 
-This project compares three approaches to solving Sudoku:
-- Classical backtracking (symbolic baseline)
-- Pure neural solver (CNN/MLP)
-- Hybrid: neural solver with symbolic constraint injection
+## Approaches
 
-The goal is to study whether explicitly encoding 
-the rules of Sudoku into a neural solver improves 
-generalization on harder, unseen puzzle difficulties 
-compared to a purely learned approach.
+- **Backtracking** — symbolic baseline
+- **CNN** — pure neural baseline
+- **Hybrid** — neural predictions + symbolic constraints *(next phase)*
 
-## Status
-Work in progress. Backtracking baseline complete.
-Neural solver in development.
+## Dataset
 
-## Stack
-Python, PyTorch, NumPy
+3M-puzzle Sudoku dataset, split by difficulty to create a distribution
+shift:
 
-## Structure (planned)
-backtracking/ — symbolic baseline
-neural/ — CNN/MLP solver
-hybrid/ — constraint-injected model
-data/ — puzzle datasets by difficulty
+| Split | Difficulty | Size |
+|---|---:|---:|
+| Train | ≤ 2.0 | 20,000 |
+| Validation | 2.0–3.0 | 5,000 |
+| Test | > 3.0 | 5,000 |
+
+## Results
+
+| Model | Accuracy | Runtime |
+|---|---:|---:|
+| Backtracking | 100% puzzles | ~594 ms avg |
+| CNN | 32.53% cells / 0% puzzles | 0.080 ms avg |
+
+Backtracking reliably solves the puzzles but can have highly variable
+runtime (1.6 ms–23.7 s). The CNN is much faster but cannot produce
+complete valid solutions, motivating the hybrid approach.
+
+## Tech Stack
+
+Python · PyTorch · NumPy · Pandas
+
+## Structure
+
+```text
+src/
+├── backtracking/
+│   └── solver.py
+└── neural/
+    ├── dataset.py
+    ├── model.py
+    └── train.py
+
+scripts/
+├── prepare_dataset.py
+├── evaluate.py
+├── evaluate_neural.py
+└── test_solver.py
+```
+# Run 
+```bash
+# Prepare dataset
+python -m scripts.prepare_dataset
+
+# Evaluate backtracking
+python -m scripts.evaluate
+
+# Train neural baseline
+python -m src.neural.train
+
+# Evaluate neural baseline
+python -m scripts.evaluate_neural
+```
+# Weekend Work
+- Implement neural-guided symbolic constraint solving
+- Build the hybrid neuro-symbolic solver
+- Compare neural, backtracking, and hybrid puzzle accuracy
+- Evaluate generalisation across puzzle difficulties

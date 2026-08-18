@@ -1,4 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+venv/
+
 # Datasets
 data/raw/*.csv
-!data/raw/.gitkeep
-!data/raw/README.md
+data/processed/*.csv
+
+# Model checkpoints
+models/*.pt
+models/*.pth
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+notes.md

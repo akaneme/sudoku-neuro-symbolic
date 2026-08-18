@@ -1,3 +1,5 @@
+# here i confirmed what actually was in da dataset
+
 import pandas as pd 
 
 df = pd.read_csv("data/raw/sudoku-3m.csv")
