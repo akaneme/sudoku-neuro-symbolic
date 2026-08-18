@@ -53,7 +53,7 @@ scripts/
 ├── evaluate_neural.py
 └── test_solver.py
 ```
-# Run 
+## Run 
 ```bash
 # Prepare dataset
 python -m scripts.prepare_dataset
@@ -67,7 +67,7 @@ python -m src.neural.train
 # Evaluate neural baseline
 python -m scripts.evaluate_neural
 ```
-# Weekend Work
+## To-do 
 - Implement neural-guided symbolic constraint solving
 - Build the hybrid neuro-symbolic solver
 - Compare neural, backtracking, and hybrid puzzle accuracy
