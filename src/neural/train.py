@@ -1,5 +1,4 @@
 import pandas as pd
-from src.neural import model
 import torch
 import torch.nn as nn
 from pathlib import Path

@@ -1,3 +1,4 @@
+# test solver checks if ts actually works 
 import time
 
 from src.backtracking.solver import solve_puzzle

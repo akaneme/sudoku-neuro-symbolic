@@ -1,3 +1,4 @@
+# ts answers how the solver is performing
 import time
 
 import pandas as pd

@@ -31,13 +31,8 @@ class SudokuCNN(nn.Module):
     def forward(self, x):
         # x: [batch, 9, 9]
 
-        x = self.embedding(x)
-
-        # [batch, 9, 9, 32]
-        x = x.permute(0, 3, 1, 2)
-
-        # [batch, 32, 9, 9]
-        x = self.network(x)
-
-        # [batch, 9, 9, 9]
+        x = self.embedding(x)        # [B, 9, 9, 32]
+        x = x.permute(0, 3, 1, 2)    # [B, 32, 9, 9]  channels first for Conv2d
+        x = self.network(x)          # [B, 9, 9, 9]   [batch, classes, rows, cols]
+        x = x.permute(0, 2, 3, 1)    # [B, rows, cols, classes]
         return x
