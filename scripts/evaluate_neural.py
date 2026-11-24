@@ -47,7 +47,8 @@ def main():
 
     correct_cells = 0
     total_cells = 0
-
+    correct_blank = 0
+    total_blank = 0
     solved_puzzles = 0
     total_puzzles = 0
 
@@ -60,16 +61,24 @@ def main():
             puzzles = puzzles.to(device)
             solutions = solutions.to(device)
 
+            if device.type == "cuda":
+                torch.cuda.synchronize()
             start = time.perf_counter()
 
             outputs = model(puzzles)
 
+            if device.type == "cuda":
+                torch.cuda.synchronize()
             elapsed = time.perf_counter() - start
 
             total_time += elapsed
 
             predictions = outputs.argmax(dim=-1) + 1
 
+            blank = (puzzles == 0)
+            correct_blank += ((predictions == solutions) & blank).sum().item()
+            total_blank += blank.sum().item()
+            
             # Cell accuracy
             correct_cells += (
                 predictions == solutions
@@ -88,6 +97,8 @@ def main():
     cell_accuracy = (
         correct_cells / total_cells * 100
     )
+    blank_accuracy = correct_blank / total_blank * 100
+    avg_clues = (total_cells - total_blank) / total_puzzles
 
     puzzle_accuracy = (
         solved_puzzles / total_puzzles * 100
@@ -105,6 +116,8 @@ def main():
     print(f"Correct cells           : {correct_cells:,}")
     print(f"Total cells             : {total_cells:,}")
     print(f"Cell accuracy           : {cell_accuracy:.2f}%")
+    print(f"Avg clues per puzzle    : {avg_clues:.1f}")
+    print(f"Blank-cell accuracy     : {blank_accuracy:.2f}%  (chance = 11.1%)")
     print(f"Completely solved       : {solved_puzzles:,}")
     print(f"Puzzle accuracy         : {puzzle_accuracy:.2f}%")
     print(f"Average inference time  : {average_time:.3f} ms")
